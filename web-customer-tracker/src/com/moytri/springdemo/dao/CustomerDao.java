@@ -39,7 +39,21 @@ public class CustomerDao implements ICustomerDAO {
 		Session session = sessionFactory.getCurrentSession();
 		
 		//save the customer into db
-		session.save(customer);
+		session.saveOrUpdate(customer);
+	}
+
+	@Override
+	public Customer getCustomers(int id) {
+		
+		//get the current hibernate session
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createQuery("from Customer where id=:id");
+		query.setParameter("id", id);
+		
+		Customer customer = (Customer) query.getSingleResult();
+		
+		return customer;
 	}
 
 }
